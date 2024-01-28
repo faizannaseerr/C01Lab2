@@ -236,7 +236,7 @@ app.delete("/deleteNote/:noteId", express.json(), async (req, res) => {
 app.patch("/editNote/:noteId", express.json(), async (req, res) => {
   try {
     const noteId = req.params.noteId;
-    const { title, content } = req.body;
+    const update = req.body;
 
     // Basic param and body checking
     if (!ObjectId.isValid(noteId) || (!title && !content)) {
@@ -256,7 +256,7 @@ app.patch("/editNote/:noteId", express.json(), async (req, res) => {
       const collection = db.collection(COLLECTIONS.notes);
       const result = await collection.updateOne(
         { username: decoded.username, _id: new ObjectId(noteId) },
-        { $set: { title, content } }
+        { $set: update }
       );
 
       if (!result) {
