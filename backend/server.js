@@ -219,10 +219,10 @@ app.delete("/deleteNote/:noteId", express.json(), async (req, res) => {
         _id: new ObjectId(noteId),
       });
 
-      if (note.deletedCount === 0) {
+      if (!note) {
         return res
           .status(404)
-          .json({ error: `Note with ID ${noteId} not found.` });
+          .json({ error: `Note with ID ${noteId} belonging to the user not found.` });
       }
 
       res.json({ response: `Document with ID ${noteId} properly deleted.` });
@@ -259,10 +259,10 @@ app.patch("/editNote/:noteId", express.json(), async (req, res) => {
         { $set: { title, content } }
       );
 
-      if (note.matchedCount === 0) {
+      if (!note) {
         return res
           .status(404)
-          .json({ error: `Note with ID ${noteId} not found.` });
+          .json({ error: `Note with ID ${noteId} belonging to the user not found.` });
       }
 
       res.json({ response: `Document with ID ${noteId} properly updated.` });
