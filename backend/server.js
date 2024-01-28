@@ -214,12 +214,12 @@ app.delete("/deleteNote/:noteId", express.json(), async (req, res) => {
 
       // Delete the note with given ID
       const collection = db.collection(COLLECTIONS.notes);
-      const note = await collection.deleteOne({
+      const result = await collection.deleteOne({
         username: decoded.username,
         _id: new ObjectId(noteId),
       });
 
-      if (!note) {
+      if (!result) {
         return res
           .status(404)
           .json({ error: `Note with ID ${noteId} belonging to the user not found.` });
@@ -254,12 +254,12 @@ app.patch("/editNote/:noteId", express.json(), async (req, res) => {
 
       // Update the note with given ID
       const collection = db.collection(COLLECTIONS.notes);
-      const note = await collection.updateOne(
+      const result = await collection.updateOne(
         { username: decoded.username, _id: new ObjectId(noteId) },
         { $set: { title, content } }
       );
 
-      if (!note) {
+      if (!result) {
         return res
           .status(404)
           .json({ error: `Note with ID ${noteId} belonging to the user not found.` });
